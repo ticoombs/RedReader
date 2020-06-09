@@ -37,7 +37,6 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Theme</string>
-    <string name="pref_appearance_font_header">Font Scale</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
     <string name="pref_appearance_comments_header">Comments</string>
     <string name="pref_appearance_other_header">Other</string>
@@ -51,10 +50,7 @@
     <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
 
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Post Title Font Scale</string>
-
-    <string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
-    <string name="pref_appearance_fontscale_comments_title">Comments</string>
+    <string name="pref_appearance_fontscale_posts_title">Post titles</string>
 
     <string name="pref_appearance_thumbnails_show_key" translatable="false">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Show thumbnails</string>
@@ -69,7 +65,7 @@
     <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
 
     <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
-    <string name="pref_appearance_comment_header_items_title">Comment header</string>
+    <string name="pref_appearance_comment_header_items_title">Comment header entries</string>
 
     <!-- Behaviour Prefs -->
 
@@ -672,9 +668,6 @@
     <string name="pref_behaviour_view_mode_external_browser">External browser</string>
 
     <!-- 2015-08-15 -->
-    <string name="pref_appearance_fontscale_inbox_key" translatable="false">pref_appearance_fontscale_inbox</string>
-    <string name="pref_appearance_fontscale_inbox_title">Inbox</string>
-
     <string name="action_delete">Delete</string>
     <string name="delete_confirm">Are you sure you want to delete this?</string>
     <string name="delete_success">Successfully deleted. The item will still be visible until you refresh.</string>
@@ -1139,17 +1132,13 @@
 	<string name="pref_appearance_fontscale_post_header_titles_title">Opened post titles</string>
 	<string name="pref_appearance_fontscale_post_header_subtitles_key" translatable="false">pref_appearance_fontscale_post_header_subtitles_key</string>
 	<string name="pref_appearance_fontscale_post_header_subtitles_title">Opened post subtitles</string>
-	<string name="pref_appearance_fontscale_post_use_different_scales_key" translatable="false">pref_appearance_fontscale_post_use_different_scales_key</string>
-	<string name="pref_appearance_fontscale_post_use_different_scales_title">Use different settings for opened posts</string>
-	<string name="pref_appearance_fontscale_selftext_key" translatable="false">pref_appearance_fontscale_selftext_key</string>
-	<string name="pref_appearance_fontscale_selftext_title">Self text</string>
 	<string name="pref_appearance_fontscale_comment_headers_key" translatable="false">pref_appearance_fontscale_comment_headers_key</string>
-	<string name="pref_appearance_fontscale_comment_headers_title">Comment headers</string>
+	<string name="pref_appearance_fontscale_comment_headers_title">Comment/Inbox headers</string>
 
 	<!-- 2020-02-04 -->
 	<string name="pref_appearance_posts_header">Posts</string>
 	<string name="pref_appearance_post_subtitle_items_key" translatable="false">pref_appearance_post_subtitle_items_key</string>
-	<string name="pref_appearance_post_subtitle_items_title">Post Subtitle Entries</string>
+	<string name="pref_appearance_post_subtitle_items_title">Post subtitle entries</string>
 	<string name="pref_appearance_post_subtitle_items_sticky">Sticky tag</string>
 	<string name="pref_appearance_post_subtitle_items_spoiler">Spoiler tag</string>
 	<string name="pref_appearance_post_subtitle_items_nsfw">NSFW tag</string>
@@ -1158,7 +1147,7 @@
 	<string name="pref_appearance_post_subtitle_items_use_different_settings_key" translatable="false">pref_appearance_post_subtitle_items_use_different_settings_key</string>
 	<string name="pref_appearance_post_subtitle_items_use_different_settings_title">Use different settings for opened posts</string>
 	<string name="pref_appearance_post_header_subtitle_items_key" translatable="false">pref_appearance_post_header_subtitle_items_key</string>
-	<string name="pref_appearance_post_header_subtitle_items_title">Opened Post Subtitle Entries</string>
+	<string name="pref_appearance_post_header_subtitle_items_title">Opened post subtitle entries</string>
 
 	<!-- 2020-02-05 -->
 	<string name="pref_cache_precache_images_list_key">pref_cache_precache_images_list_key</string>
@@ -1179,8 +1168,19 @@
 	<string name="search_results_subreddit_only">Search on /r/%s</string>
 
 	<!-- 2020-02-17 -->
-	<string name="pref_appearance_comment_header_summary">Select which information to display in comments</string>
 	<string name="pref_network_tor_summary">When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor)</string>
+
+	<!-- 2020-03-05 -->
+	<string name="prefs_category_fonts">Font</string>
+	<string name="pref_appearance_fontscale_header">Font Scale</string>
+	<string name="pref_appearance_fontscale_global_key" translatable="false">pref_appearance_fontscale_global</string>
+	<string name="pref_appearance_fontscale_global_title">Global</string>
+	<string name="pref_appearance_fontscale_use_global">Use global font scale</string>
+	<string name="pref_appearance_fontscale_linkbuttons_key" translatable="false">pref_appearance_fontscale_linkbuttons</string>
+	<string name="pref_appearance_fontscale_linkbuttons_title">Link buttons</string>
+	<!-- Uses the old Comments Font Scale key, do not change -->
+	<string name="pref_appearance_fontscale_bodytext_key" translatable="false">pref_appearance_fontscale_comments</string>
+	<string name="pref_appearance_fontscale_bodytext_title">Body text</string>
 
 	<!-- 2020-04-06 -->
 	<string name="must_login_message">You need to be logged into a Reddit account to do this.</string>
@@ -1190,5 +1190,11 @@
 	<string name="error_toast_failed_open_external_browser">Failed to open url \"%s\" in external browser</string>
 	<string name="error_toast_no_email_apps">No email apps installed!</string>
 	<string name="bug_chooser_title">Email bug report</string>
+
+	<!-- 2020-06-08 -->
+	<string name="subscription_successful">Successfully subscribed to %s</string>
+	<string name="unsubscription_successful">Successfully unsubscribed from %s</string>
+	<string name="pin_successful">Pinned %s to main menu</string>
+	<string name="unpin_successful">Unpinned %s from main menu</string>
 
 </resources>

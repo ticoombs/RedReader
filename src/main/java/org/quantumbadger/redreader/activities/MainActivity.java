@@ -26,6 +26,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,6 +90,8 @@ public class MainActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuCommentsListener,
 		SessionChangeListener,
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
+
+	private static final String TAG = "MainActivity";
 
 	private boolean twoPane;
 
@@ -162,7 +165,11 @@ public class MainActivity extends RefreshableActivity
 
 		final int appVersion = pInfo.versionCode;
 
+		Log.i(TAG, "[Migration] App version: " + appVersion);
+
 		if(!sharedPreferences.contains("firstRunMessageShown")) {
+
+			Log.i(TAG, "[Migration] Showing first run message");
 
 			new AlertDialog.Builder(this)
 					.setTitle(R.string.firstrun_login_title)
@@ -185,6 +192,8 @@ public class MainActivity extends RefreshableActivity
 		} else if(sharedPreferences.contains("lastVersion")) {
 
 			final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+
+			Log.i(TAG, "[Migration] Last version: " + lastVersion);
 
 			if(lastVersion < 63) {
 				// Upgrading across the 1.9.0 boundary (when oAuth was introduced)
@@ -328,31 +337,83 @@ public class MainActivity extends RefreshableActivity
 
 				if(lastVersion <= 89) {
 					//Upgrading from 89/1.9.11 or lower, enable finer control over font scales
-					//and set them to match the existing settings and behavior
+					//and set them to match the existing settings
+					//The old Inbox Font Scale setting is ignored
 
-					final String existingPostFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_posts(this, sharedPreferences));
+					Log.i(TAG, "[Migration] Upgrading from v89");
 
-					sharedPreferences.edit().putString(
-							getString(R.string.pref_appearance_fontscale_post_subtitles_key),
-							existingPostFontscalePreference
-					).apply();
+					final String existingPostFontscalePreference = PrefsUtility.getString(
+							R.string.pref_appearance_fontscale_posts_key,
+							"-1",
+							this,
+							sharedPreferences
+					);
 
-					sharedPreferences.edit().putBoolean(
-							getString(R.string.pref_appearance_fontscale_post_use_different_scales_key),
-							true
-					).apply();
+					final String existingCommentSelfTextFontscalePreference = PrefsUtility.getString(
+							R.string.pref_appearance_fontscale_bodytext_key,
+							"-1",
+							this,
+							sharedPreferences
+					);
 
-					final String existingCommentSelfTextFontscalePreference = Float.toString(PrefsUtility.appearance_fontscale_comments(this, sharedPreferences));
+					if(existingPostFontscalePreference.equals(existingCommentSelfTextFontscalePreference)) {
 
-					sharedPreferences.edit().putString(
-							getString(R.string.pref_appearance_fontscale_selftext_key),
-							existingCommentSelfTextFontscalePreference
-					).apply();
+						Log.i(TAG, "[Migration] Old font preferences were both " + existingPostFontscalePreference);
 
-					sharedPreferences.edit().putString(
-							getString(R.string.pref_appearance_fontscale_comment_headers_key),
-							existingCommentSelfTextFontscalePreference
-					).apply();
+						// Avoid setting the global font scale to -1
+						if(!existingPostFontscalePreference.equals("-1")) {
+
+							Log.i(TAG, "[Migration] Migrating font preferences");
+
+							sharedPreferences.edit().putString(
+									getString(R.string.pref_appearance_fontscale_global_key),
+									existingPostFontscalePreference
+							).apply();
+
+							sharedPreferences.edit().putString(
+									getString(R.string.pref_appearance_fontscale_posts_key),
+									"-1"
+							).apply();
+
+							sharedPreferences.edit().putString(
+									getString(R.string.pref_appearance_fontscale_bodytext_key),
+									"-1"
+							).apply();
+						}
+
+					} else {
+
+						Log.i(TAG, "[Migration] Old font prefs: comments="
+								+ existingCommentSelfTextFontscalePreference
+								+ ", posts="
+								+ existingPostFontscalePreference
+								+ ". Migrating.");
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_post_subtitles_key),
+								existingPostFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_post_header_titles_key),
+								existingPostFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_post_header_subtitles_key),
+								existingPostFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_comment_headers_key),
+								existingCommentSelfTextFontscalePreference
+						).apply();
+
+						sharedPreferences.edit().putString(
+								getString(R.string.pref_appearance_fontscale_linkbuttons_key),
+								existingCommentSelfTextFontscalePreference
+						).apply();
+					}
 
 					//Upgrading from 89/1.9.11 or lower, switch to ListPreference for
 					//appearance_thumbnails_show, cache_precache_images, cache_precache_comments
@@ -379,6 +440,7 @@ public class MainActivity extends RefreshableActivity
 			}
 
 		} else {
+			Log.i(TAG, "[Migration] Last version not set.");
 			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
 			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 		}
